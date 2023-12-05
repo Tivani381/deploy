@@ -1,5 +1,3 @@
-require('dotenv').config();
-
 import {
     GET_BY_ID,
     GET_DOGS,
