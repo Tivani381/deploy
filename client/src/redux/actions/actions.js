@@ -16,7 +16,7 @@ import {
   } from "./actions-types";
   import axios from "axios";
   
-  const { REACT_APP_URL_HOST } = process.env;
+  const { REACT_APP_URL_HOST } = 'https://deploy-three-eosin.vercel.app/';
   
   export const getDogs = () => {
     return async (dispatch) => {
