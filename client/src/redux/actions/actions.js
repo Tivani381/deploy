@@ -14,8 +14,8 @@ import {
   } from "./actions-types";
   import axios from "axios";
   
-  // const REACT_APP_URL_HOST  = 'https://deploy-production-479e.up.railway.app';
-  const REACT_APP_URL_HOST  = 'http://localhost:3001/';
+  const REACT_APP_URL_HOST  = 'https://deploy-production-479e.up.railway.app';
+  // const REACT_APP_URL_HOST  = 'http://localhost:3001/';
   
   export const getDogs = () => {
     return async (dispatch) => {
