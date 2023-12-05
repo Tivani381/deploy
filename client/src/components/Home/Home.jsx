@@ -1,7 +1,15 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getDogs, FilterByTemperament, getTemperaments, getByName, FilterByWeight, FilterByHeight, FilterByOrigin, FilterByName } from "../../redux/actions/actions";
+import {
+  getDogs,
+  FilterByTemperament,
+  getTemperaments,
+  getByName,
+  FilterByWeight,
+  FilterByHeight,
+  FilterByOrigin,
+  FilterByName,
+} from "../../redux/actions/actions";
 import Pagination from "../Pagination/Pagination";
 import Dogs from "../Dogs/Dogs";
 import SearchBar from "../SearchBar/SearchBar";
@@ -12,9 +20,13 @@ const Home = () => {
   const allDogs = useSelector((state) => state.dogs);
   const tempState = useSelector((state) => state.temperaments);
 
-  //? Paginado
-  const [currentPage, setCurrentPage] = useState(1); //* Página actual, comienza en 1
-  const [dogsPerPage] = useState(8); //* Cantidad de perros por página
+  const [currentPage, setCurrentPage] = useState(1);
+  const [dogsPerPage] = useState(8);
+  const [selectedNameFilter, setSelectedNameFilter] = useState("");
+  const [selectedWeightFilter, setSelectedWeightFilter] = useState("");
+  const [selectedHeightFilter, setSelectedHeightFilter] = useState("");
+  const [selectedOriginFilter, setSelectedOriginFilter] = useState("");
+  const [selectedTemperamentFilter, setSelectedTemperamentFilter] = useState("");
 
   const lastDogIndex = currentPage * dogsPerPage;
   const firstDogIndex = lastDogIndex - dogsPerPage;
@@ -23,49 +35,64 @@ const Home = () => {
   const pagination = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
+
   const resetPagination = () => {
     setCurrentPage(1);
   };
 
   useEffect(() => {
-      dispatch(getDogs());
-      dispatch(getTemperaments());
+    dispatch(getDogs());
+    dispatch(getTemperaments());
   }, [dispatch]);
 
   const handleClick = (event) => {
-    //? Cargar perros de nuevo
     event.preventDefault();
     resetPagination();
     dispatch(getDogs());
-  };
-
-  const handleFilterByTemperament = (event) => {
-    event.preventDefault();
-    resetPagination();
-    dispatch(FilterByTemperament(event.target.value));
+    dispatch(FilterByName(""));
+    dispatch(FilterByTemperament(""));
+    dispatch(FilterByWeight(""));
+    dispatch(FilterByHeight(""));
+    dispatch(FilterByOrigin(""));
+    setSelectedNameFilter("");
+    setSelectedWeightFilter("");
+    setSelectedHeightFilter("");
+    setSelectedOriginFilter("");
+    setSelectedTemperamentFilter("");
   };
 
   const handleFilterByWeight = (event) => {
     event.preventDefault();
     resetPagination();
+    setSelectedWeightFilter(event.target.value);
     dispatch(FilterByWeight(event.target.value));
   };
 
   const handleFilterByHeight = (event) => {
     event.preventDefault();
     resetPagination();
+    setSelectedHeightFilter(event.target.value);
     dispatch(FilterByHeight(event.target.value));
   };
 
   const handleFilteredByOrigin = (event) => {
     event.preventDefault();
     resetPagination();
+    setSelectedOriginFilter(event.target.value);
     dispatch(FilterByOrigin(event.target.value));
+  };
+
+  const handleFilterByTemperament = (event) => {
+    event.preventDefault();
+    resetPagination();
+    setSelectedTemperamentFilter(event.target.value);
+    dispatch(FilterByTemperament(event.target.value));
   };
 
   const handleFilterByName = (event) => {
     event.preventDefault();
     resetPagination();
+    setSelectedNameFilter(event.target.value);
     dispatch(FilterByName(event.target.value));
   };
 
@@ -77,9 +104,9 @@ const Home = () => {
   return (
     <div className={styles.homeAll}>
       <div className={styles.filterContainer}>
-      <div className={styles.titleContainer}>
-        <h1 className={styles.title}>¡Bienvenido a mundo perruno!</h1>
-      </div>
+        <div className={styles.titleContainer}>
+          <h1 className={styles.title}>¡Bienvenido a mundo perruno!</h1>
+        </div>
         <div className={styles.SearchBar}>
           <SearchBar onSearch={handleSearch} />
         </div>
@@ -90,6 +117,7 @@ const Home = () => {
             <select
               className={styles.filterSelect}
               onChange={(event) => handleFilterByName(event)}
+              value={selectedNameFilter}
             >
               <option value="">Seleccionar</option>
               <option value="Asc">Ascendente</option>
@@ -101,6 +129,7 @@ const Home = () => {
             <select
               className={styles.filterSelect}
               onChange={(event) => handleFilterByWeight(event)}
+              value={selectedWeightFilter}
             >
               <option value="">Seleccionar</option>
               <option value="max">Peso Max-Min</option>
@@ -112,6 +141,7 @@ const Home = () => {
             <select
               className={styles.filterSelect}
               onChange={(event) => handleFilterByHeight(event)}
+              value={selectedHeightFilter}
             >
               <option value="">Seleccionar</option>
               <option value="max">Max-Min</option>
@@ -126,6 +156,7 @@ const Home = () => {
             <select
               className={styles.filterSelect}
               onChange={(event) => handleFilteredByOrigin(event)}
+              value={selectedOriginFilter}
             >
               <option value="">Seleccionar</option>
               <option value="all">Todos</option>
@@ -138,6 +169,7 @@ const Home = () => {
             <select
               className={styles.filterSelect}
               onChange={(event) => handleFilterByTemperament(event)}
+              value={selectedTemperamentFilter}
             >
               <option value="">Seleccionar</option>
               <option value="All">Todos los temperamentos</option>
@@ -149,14 +181,14 @@ const Home = () => {
             </select>
           </div>
         </div>
-      <div className={styles.reloadButtonContainer}>
-      <button
-        className={styles.reloadButton}
-        onClick={(event) => handleClick(event)}
-      >
-        Eliminar filtros
-      </button>
-    </div>
+        <div className={styles.reloadButtonContainer}>
+          <button
+            className={styles.reloadButton}
+            onClick={(event) => handleClick(event)}
+          >
+            Eliminar filtros
+          </button>
+        </div>
       </div>
       <div className={styles.dogsContainer}>
         {currentDogs?.map((dog) => (
