@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 import {
     GET_BY_ID,
     GET_DOGS,
@@ -14,8 +16,8 @@ import {
   } from "./actions-types";
   import axios from "axios";
   
-  // const { REACT_APP_URL_HOST } = process.env;
-  const REACT_APP_URL_HOST = "http://localhost:3001"
+  const { REACT_APP_URL_HOST } = process.env;
+  // const REACT_APP_URL_HOST = "http://localhost:3001"
   
   export const getDogs = () => {
     return async (dispatch) => {
