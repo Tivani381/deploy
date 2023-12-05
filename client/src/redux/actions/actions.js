@@ -14,11 +14,11 @@ import {
   } from "./actions-types";
   import axios from "axios";
   
-  const { REACT_APP_URL_HOST } = 'https://deploy-three-eosin.vercel.app';
+  const { REACT_APP_URL_HOST } = 'https://deploy-production-479e.up.railway.app';
   
   export const getDogs = () => {
     return async (dispatch) => {
-      const response = await axios.get(`https://deploy-three-eosin.vercel.app/dogs`);
+      const response = await axios.get(`${REACT_APP_URL_HOST}/dogs`);
       return dispatch({
         type: GET_DOGS,
         payload: response.data,
@@ -29,7 +29,7 @@ import {
   export const getTemperaments = () => {
     return async (dispatch) => {
       try {
-        const response = await axios.get(`https://deploy-three-eosin.vercel.app/temps`);
+        const response = await axios.get(`${REACT_APP_URL_HOST}/temps`);
         dispatch({
           type: GET_TEMPERAMENTS,
           payload: response.data
@@ -43,7 +43,7 @@ import {
   export const getByName = (name) => {
     return async (dispatch) => {
       try {
-        const response = await axios.get(`https://deploy-three-eosin.vercel.app/dogs?name=${name}`);
+        const response = await axios.get(`${REACT_APP_URL_HOST}/dogs?name=${name}`);
         if (!response.data.length) {
           throw new Error("Dog not found");
         }
@@ -57,7 +57,7 @@ import {
   export const getById = (id) => {
     return async (dispatch) => {
       try {
-        const response = await axios.get(`https://deploy-three-eosin.vercel.app/dogs/${id}`);
+        const response = await axios.get(`${REACT_APP_URL_HOST}/dogs/${id}`);
         return dispatch({ type: GET_BY_ID, payload: response.data });
       } catch (error) {
         console.error(error.message);
@@ -68,7 +68,7 @@ import {
   export const postDog = (dog) => {
     return async (dispatch) => {
       try {
-        const response = await axios.post(`https://deploy-three-eosin.vercel.app/dogs`, dog);
+        const response = await axios.post(`${REACT_APP_URL_HOST}/dogs`, dog);
         dispatch({ type: POST_DOG, payload: response.data });
         alert("Perro creado correctamente");
         return response;
@@ -116,7 +116,7 @@ import {
       if (!id) {
         throw new Error("Invalid ID");
       }
-      const response = await axios.delete(`https://deploy-three-eosin.vercel.app/dogs/delete/${id}`);
+      const response = await axios.delete(`${REACT_APP_URL_HOST}/dogs/delete/${id}`);
       dispatch({
         type: DELETE_DOG,
         payload: response.data,
