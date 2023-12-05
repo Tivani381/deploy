@@ -17,7 +17,6 @@ import {
   import axios from "axios";
   
   const { REACT_APP_URL_HOST } = process.env;
-  // const REACT_APP_URL_HOST = "http://localhost:3001"
   
   export const getDogs = () => {
     return async (dispatch) => {
