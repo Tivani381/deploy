@@ -7,7 +7,7 @@ import Home from './components/Home/Home.jsx';
 import Landing from './components/Landing/Landing.jsx';
 import Nav from './components/Nav/Nav.jsx';
 import axios from 'axios';
-axios.defaults.baseURL = 'http://localhost:3001/';
+axios.defaults.baseURL = 'http://https://deploy-production-479e.up.railway.app/';
 
 function App() {
   return (
