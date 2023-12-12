@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { postDog, getTemperaments } from "../../redux/actions/actions";
 import { validate } from "../../Extras/validate";
 import styles from "../Form/Form.module.css";
 
 const Form = () => {
+  const crearButtonRef = useRef(null)  
   const dispatch = useDispatch();
   const [input, setInput] = useState({
     //? Estado local para todos los inputs
@@ -35,6 +36,11 @@ const Form = () => {
     //? Manejo del input
     const { name, value } = event.target;
     const error = validate(name, value);
+    if (error) {
+      crearButtonRef.current.disabled = true;
+    } else {
+      crearButtonRef.current.disabled = false
+    }
     setInput((prevInput) => ({
       ...prevInput,
       [name]: value,
@@ -65,9 +71,6 @@ const Form = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const validationErrors = validate(input);
-
-    if (Object.keys(validationErrors).length === 0) {
       const dog = {
         ...input,
         temperaments: input.temperaments.map((temp) => temp.name),
@@ -85,7 +88,6 @@ const Form = () => {
         temperaments: [],
       });
       setSelectedTemps([]);
-    }
   };
 
   const handleRemove = (temperament) => {
@@ -195,7 +197,7 @@ const Form = () => {
                 ))}
               </div>
             </div>
-            <button type="submit" className={styles.createButton}>
+            <button type="submit" ref={crearButtonRef} className={styles.createButton}>
               Crear
             </button>
           </div>

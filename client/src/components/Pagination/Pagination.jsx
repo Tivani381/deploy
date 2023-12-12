@@ -17,7 +17,6 @@ const Pagination = ({ dogsPerPage, dogs, currentPage, pagination }) => {
     }
   };
   useEffect(() => {
-    //* Scroll cada vez que se aprete el boton de prev o next, con una transición smooth
     window.scrollTo({
       top: 0,
       behavior: "smooth",

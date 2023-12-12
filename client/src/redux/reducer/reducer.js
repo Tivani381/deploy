@@ -38,17 +38,17 @@ const reducer = (state = initialState, { type, payload }) => {
         dogs: [...state.dogs, payload],
       };
     case FILTER_BY_TEMPERAMENT:
-      const allDogs = state.dogsCopy; //? Traigo toda la copia de perros
+      const allDogs = state.dogsCopy;
       const filterDog =
         payload === "All"
           ? allDogs
           : allDogs.filter((dog) => dog.temperament?.includes(payload)); //? Comparo payload de los temperamentos
-      const filterDb = []; //? Acá guardo los temp de base de datos
+      const filterDb = []; 
       allDogs.forEach((dog) => {
         //? Busco si el id es string (UUID)
         if (typeof dog.id === "string") {
           dog.temperament?.forEach((tempDb) => {
-            if (tempDb === payload) filterDb.push(tempDb); //? Guardo los temp de perros de base de datos
+            if (tempDb === payload) filterDb.push(tempDb);
           });
         }
       });
