@@ -33,23 +33,20 @@ const Form = () => {
   );
 
   const handleChange = (event) => {
-    //? Manejo del input
+    // Manejo del input
     const { name, value } = event.target;
-    const error = validate(name, value);
-    if (error) {
-      crearButtonRef.current.disabled = true;
-    } else {
-      crearButtonRef.current.disabled = false
-    }
     setInput((prevInput) => ({
       ...prevInput,
       [name]: value,
     }));
-    setErrors((prevErrors) => ({
-      //? Manejo de errores
-      ...prevErrors,
-      [name]: error,
-    }));
+  
+    // Manejo de errores
+    const updatedErrors = { ...errors, [name]: validate(name, value) };
+    setErrors(updatedErrors);
+  
+    // Deshabilitar el botón si hay algún error
+    const hasErrors = Object.values(updatedErrors).some((error) => !!error);
+    crearButtonRef.current.disabled = hasErrors;
   };
 
   const handleSelect = (event) => {
